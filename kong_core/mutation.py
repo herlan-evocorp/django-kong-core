@@ -2,6 +2,7 @@ from graphene_django.rest_framework.mutation import SerializerMutation, Serializ
 from graphene.types import Field, InputField
 from graphql_relay.node.node import from_global_id, to_global_id
 from graphene.types.objecttype import yank_fields_from_attrs
+from .utils import nested_dict
 
 
 class RNASerializerMutation(SerializerMutation):
@@ -24,7 +25,7 @@ class RNASerializerMutation(SerializerMutation):
             if not hasattr(cls.Type, 'object_type'):
                 raise Exception(
                     'object_type is required for the SerializerMutation `Type` class')
-        
+
         super(RNASerializerMutation, cls).__init_subclass_with_meta__(
             lookup_field,
             serializer_class,
@@ -37,9 +38,23 @@ class RNASerializerMutation(SerializerMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        if 'id' in input:
-            plain_id = from_global_id(input.get('id'))[1]
-            input['id'] = plain_id
+        # capturar todos os ids em strings e converter para numerico
+        def convert_hash_id_to_plain_id(key, value):
+            search_key = 'id'
+            if isinstance(value[key], str) and search_key.upper() in value[key].upper():
+                try:
+                    plain_id = from_global_id(value.get(key))[1]
+                    value[key] = plain_id
+                except Exception as e:
+                    print(e)
+                    pass
+
+        nested_dict(input, convert_hash_id_to_plain_id)
+
+        # if 'id' in input:
+        # plain_id = from_global_id(input.get(key))[1]
+        # input[key] = plain_id
+
         return super(RNASerializerMutation, cls).mutate_and_get_payload(root, info, **input)
 
     @classmethod
