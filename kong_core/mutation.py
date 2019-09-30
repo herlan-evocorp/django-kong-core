@@ -2,7 +2,20 @@ from graphene_django.rest_framework.mutation import SerializerMutation, Serializ
 from graphene.types import Field, InputField
 from graphql_relay.node.node import from_global_id, to_global_id
 from graphene.types.objecttype import yank_fields_from_attrs
-from .utils import nested_dict
+
+
+def convert_hash_id_to_plain_id(d, search_key):
+    '''capturar todos os ids em strings e converter para numerico'''
+    for key, value in d.items():
+        if isinstance(value, dict):
+            convert_hash_id_to_plain_id(d, search_key)
+        else:
+            if isinstance(value, str) and search_key.upper() in key.upper():
+                try:
+                    plain_id = from_global_id(value)[1]
+                    d[key] = plain_id
+                except Exception as e:
+                    print(e)
 
 
 class RNASerializerMutation(SerializerMutation):
@@ -38,23 +51,8 @@ class RNASerializerMutation(SerializerMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        # capturar todos os ids em strings e converter para numerico
-        def convert_hash_id_to_plain_id(key, value):
-            search_key = 'id'
-            if isinstance(value[key], str) and search_key.upper() in value[key].upper():
-                try:
-                    plain_id = from_global_id(value.get(key))[1]
-                    value[key] = plain_id
-                except Exception as e:
-                    print(e)
-                    pass
-
-        nested_dict(input, convert_hash_id_to_plain_id)
-
-        # if 'id' in input:
-        # plain_id = from_global_id(input.get(key))[1]
-        # input[key] = plain_id
-
+        search_key = 'id'
+        convert_hash_id_to_plain_id(input, search_key)
         return super(RNASerializerMutation, cls).mutate_and_get_payload(root, info, **input)
 
     @classmethod
