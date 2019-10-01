@@ -1,3 +1,4 @@
+import graphene
 from graphene_django.rest_framework.mutation import SerializerMutation, SerializerMutationOptions, fields_for_serializer
 from graphene.types import Field, InputField
 from graphql_relay.node.node import from_global_id, to_global_id
@@ -16,6 +17,17 @@ def convert_hash_id_to_plain_id(d, search_key):
                     d[key] = plain_id
                 except Exception as e:
                     print(e)
+
+
+class HashIdToPlainClientIDMutation(graphene.relay.ClientIDMutation):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        search_key = 'id'
+        convert_hash_id_to_plain_id(input, search_key)
+        return super(HashIdToPlainClientIDMutation, cls).mutate_and_get_payload(root, info, **input)
 
 
 class RNASerializerMutation(SerializerMutation):
