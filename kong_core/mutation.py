@@ -19,17 +19,6 @@ def convert_hash_id_to_plain_id(d, search_key):
                     print(e)
 
 
-class HashIdToPlainClientIDMutation(graphene.relay.ClientIDMutation):
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
-        search_key = 'id'
-        convert_hash_id_to_plain_id(input, search_key)
-        return super(HashIdToPlainClientIDMutation, cls).mutate_and_get_payload(root, info, **input)
-
-
 class RNASerializerMutation(SerializerMutation):
     class Meta:
         abstract = True
