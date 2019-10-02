@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Client
 
 
-class ClientSerializer(serializers.modelSerializer):
+class ClientSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
 
     class Meta:
