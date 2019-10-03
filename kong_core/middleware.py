@@ -7,7 +7,11 @@ class KongClientMiddleware(MiddlewareMixin):
         headers = request.headers
 
         if headers is not None and headers.get('X-Consumer-ID', False):
-            client = Client.objects.get(pk=headers.get('X-Consumer-ID'))
+
+            try:
+                client = Client.objects.get(pk=headers.get('X-Consumer-ID'))
+            except Client.DoesNotExist:
+                client = None
 
             if client is None:
                 client, created = Client.objects.get_or_create(
@@ -21,5 +25,5 @@ class KongClientMiddleware(MiddlewareMixin):
                     x_authenticated_userid=headers.get(
                         'X-Authenticated-Userid', None),
                 )
-                
+
             request.client = client
