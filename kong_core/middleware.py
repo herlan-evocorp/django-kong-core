@@ -9,7 +9,7 @@ class KongClientMiddleware(MiddlewareMixin):
         if headers is not None and headers.get('X-Consumer-ID', False):
             client = Client.objects.get(pk=headers.get('X-Consumer-ID'))
 
-            if client is not None:
+            if client is None:
                 client, created = Client.objects.get_or_create(
                     x_consumer_id=headers.get('X-Consumer-ID', None),
                     x_consumer_custom_id=headers.get(
