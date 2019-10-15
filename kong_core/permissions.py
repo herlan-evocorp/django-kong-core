@@ -2,7 +2,7 @@ from graphene_permissions.permissions import AllowAny
 from .enums import TipoUsuario
 
 
-class DennyAny(AllowAny):
+class DenyAny(AllowAny):
     @staticmethod
     def has_node_permission(info, id):
         return False
@@ -31,7 +31,7 @@ class AllowAuthenticated(AllowAny):
 
 
 # can access node
-class AllowClientNode(DennyAny):
+class AllowClientNode(DenyAny):
     @staticmethod
     def has_node_permission(info, id):
         if info.request.client is not None:
@@ -39,7 +39,7 @@ class AllowClientNode(DennyAny):
         return False
 
 
-class AllowInstaladorNode(DennyAny):
+class AllowInstaladorNode(DenyAny):
     @staticmethod
     def has_node_permission(info, id):
         if info.request.client is not None:
@@ -47,7 +47,7 @@ class AllowInstaladorNode(DennyAny):
         return False
 
 
-class AllowGestorNode(DennyAny):
+class AllowGestorNode(DenyAny):
     @staticmethod
     def has_node_permission(info, id):
         if info.request.client is not None:
@@ -56,7 +56,7 @@ class AllowGestorNode(DennyAny):
 
 
 # can make mutation
-class AllowClientMutation(DennyAny):
+class AllowClientMutation(DenyAny):
     @staticmethod
     def has_mutation_permission(root, info, input):
         if info.request.client is not None:
@@ -64,7 +64,7 @@ class AllowClientMutation(DennyAny):
         return False
 
 
-class AllowInstaladorMutation(DennyAny):
+class AllowInstaladorMutation(DenyAny):
     @staticmethod
     def has_mutation_permission(root, info, input):
         if info.request.client is not None:
@@ -72,7 +72,7 @@ class AllowInstaladorMutation(DennyAny):
         return False
 
 
-class AllowGestorMutation(DennyAny):
+class AllowGestorMutation(DenyAny):
     @staticmethod
     def has_mutation_permission(root, info, input):
         if info.request.client is not None:
@@ -81,7 +81,7 @@ class AllowGestorMutation(DennyAny):
 
 
 # can filter
-class AllowClientFilter(DennyAny):
+class AllowClientFilter(DenyAny):
     @staticmethod
     def has_filter_permission(info):
         if info.request.client is not None:
@@ -89,7 +89,7 @@ class AllowClientFilter(DennyAny):
         return False
 
 
-class AllowInstaladorFilter(DennyAny):
+class AllowInstaladorFilter(DenyAny):
     @staticmethod
     def has_filter_permission(info):
         if info.request.client is not None:
@@ -97,7 +97,7 @@ class AllowInstaladorFilter(DennyAny):
         return False
 
 
-class AllowGestorFilter(DennyAny):
+class AllowGestorFilter(DenyAny):
     @staticmethod
     def has_filter_permission(info):
         if info.request.client is not None:
