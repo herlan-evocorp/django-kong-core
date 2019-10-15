@@ -4,18 +4,22 @@ from setuptools import find_packages, setup
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
 
+with open('requirements/requirements.txt') as f:
+    install_requirements = f.readlines()
+
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-kong-core',
-    version='0.7.6.3',
+    version='0.7.6.4',
     packages=find_packages(),
     include_package_data=True,
     license='BSD License',  # example license
     description='Django Kong Core',
     long_description=README,
     # url='https://www.example.com/',
+    install_requires=install_requirements,
     author='Herlan Assis',
     author_email='herlan@evocorp.com.br',
     classifiers=[

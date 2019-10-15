@@ -42,6 +42,7 @@ class KongClientMiddleware(MiddlewareMixin):
                         'X-Authenticated-Scope', None),
                     x_authenticated_userid=headers.get(
                         'X-Authenticated-Userid', None),
+                        
                     user_type=get_user_type(headers.get(
                         'X-Authenticated-Userid', None)),
                 )

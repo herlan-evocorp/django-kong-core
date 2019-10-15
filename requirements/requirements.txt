@@ -1,0 +1,2 @@
+requests==2.22.0
+graphene-permissions==1.1.2
