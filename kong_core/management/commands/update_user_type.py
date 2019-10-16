@@ -18,7 +18,9 @@ class Command(BaseCommand):
             for client in Client.objects.all():
                 client.user_type = get_user_type(client.id)
                 client.save()
-        elif client.user_type == None:
+        else:
             for client in Client.objects.all():
-                client.user_type = get_user_type(client.id)
-                client.save()
+                
+                if client.user_type == None:
+                    client.user_type = get_user_type(client.id)
+                    client.save()
