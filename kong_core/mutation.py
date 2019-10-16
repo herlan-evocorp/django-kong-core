@@ -1,6 +1,7 @@
 import graphene
+from graphene_django.types import ErrorType
 from graphene_django.rest_framework.mutation import SerializerMutation, SerializerMutationOptions, fields_for_serializer
-from graphene.types import Field, InputField, ErrorType
+from graphene.types import Field, InputField
 from graphql_relay.node.node import from_global_id, to_global_id
 from graphene.types.objecttype import yank_fields_from_attrs
 
