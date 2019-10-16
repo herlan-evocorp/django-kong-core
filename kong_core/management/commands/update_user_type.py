@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--all',
-            action='all clientes',
+            action='store_true',
             help='Update all clients',
         )
 
