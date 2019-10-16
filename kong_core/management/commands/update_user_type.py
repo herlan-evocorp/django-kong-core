@@ -7,12 +7,14 @@ class Command(BaseCommand):
     help = 'Update user type'
 
     def add_arguments(self, parser):
-        parser.add_argument('option', type=str)
+        parser.add_argument(
+            '--all',
+            action='all clientes',
+            help='Update all clients',
+        )
 
     def handle(self, *args, **options):
-        option = options['total']
-
-        if option == 'all':
+        if options['all']:
             for client in Client.objects.all():
                 client.user_type = get_user_type(client.id)
                 client.save()
