@@ -30,76 +30,52 @@ class AllowAuthenticated(AllowAny):
         return info.context.client is not None
 
 
-# can access node
-class AllowClienteNode(DenyAny):
+class AllowCliente:
     @staticmethod
     def has_node_permission(info, id):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.CLIENTE.name
-        return False
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.CLIENTE.name
+
+    @staticmethod
+    def has_mutation_permission(root, info, input):
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.CLIENTE.name
+
+    @staticmethod
+    def has_filter_permission(info):
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.CLIENTE.name
 
 
-class AllowInstaladorNode(DenyAny):
+class AllowInstalador:
     @staticmethod
     def has_node_permission(info, id):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.INSTALADOR.name
-        return False
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.INSTALADOR.name
+
+    @staticmethod
+    def has_mutation_permission(root, info, input):
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.INSTALADOR.name
+
+    @staticmethod
+    def has_filter_permission(info):
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.INSTALADOR.name
 
 
-class AllowGestorNode(DenyAny):
+class AllowGestor:
     @staticmethod
     def has_node_permission(info, id):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.GESTOR.name
-        return False
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.GESTOR.name
 
-
-# can make mutation
-class AllowClienteMutation(DenyAny):
     @staticmethod
     def has_mutation_permission(root, info, input):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.CLIENTE.name
-        return False
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.GESTOR.name
 
-
-class AllowInstaladorMutation(DenyAny):
-    @staticmethod
-    def has_mutation_permission(root, info, input):
-        if info.context.client is not None:
-           return info.context.client.user_type == TipoUsuario.INSTALADOR.name
-        return False
-
-
-class AllowGestorMutation(DenyAny):
-    @staticmethod
-    def has_mutation_permission(root, info, input):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.GESTOR.name
-        return False
-
-
-# can filter
-class AllowClienteFilter(DenyAny):
     @staticmethod
     def has_filter_permission(info):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.CLIENTE.name
-        return False
-
-
-class AllowInstaladorFilter(DenyAny):
-    @staticmethod
-    def has_filter_permission(info):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.INSTALADOR.name
-        return False
-
-
-class AllowGestorFilter(DenyAny):
-    @staticmethod
-    def has_filter_permission(info):
-        if info.context.client is not None:
-            return info.context.client.user_type == TipoUsuario.GESTOR.name
-        return False
+        client = info.context.client
+        return client is not None and client.user_type == TipoUsuario.GESTOR.name
