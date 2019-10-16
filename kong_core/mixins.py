@@ -1,3 +1,4 @@
+from graphene_django.fields import DjangoConnectionField
 from graphene_permissions.mixins import AuthNode, AuthMutation, AuthFilter
 from graphene_permissions.permissions import AllowAny
 from .errors import PermissionDenied
@@ -25,6 +26,41 @@ class UserAuthFilter(AuthFilter):
         if object_instance is not None and any((perm.has_filter_permission(info) for perm in cls.permission_users)):
             return object_instance
         raise PermissionDenied()
+
+
+class UserAuthList(DjangoConnectionField):
+    """
+    Custom ConnectionField for permission system.
+    """
+    permission_classes = (AllowAny,)
+    permission_users = (AllowAny,)
+
+    @classmethod
+    def has_permission(cls, info):
+        return all(
+            (perm().has_filter_permission(info)
+             for perm in cls.permission_classes)
+        ) and any((perm.has_filter_permission(info) for perm in cls.permission_users))
+
+    @classmethod
+    def connection_resolver(
+        cls,
+        resolver,
+        connection,
+        default_manager,
+        max_limit,
+        enforce_first_or_last,
+        root,
+        info,
+        **args
+    ):
+        if not cls.has_permission(info):
+            raise PermissionDenied()
+
+        return super(UserAuthList, cls).connection_resolver(
+            resolver, connection, default_manager, max_limit, enforce_first_or_last,
+            root, info, **args,
+        )
 
 
 class UserAuthMutation(AuthMutation):
