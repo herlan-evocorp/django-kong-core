@@ -1,4 +1,5 @@
 import graphene
+from django.utils.translation import ugettext_lazy as _
 from graphene_django.types import ErrorType
 from graphene_django.rest_framework.mutation import SerializerMutation, SerializerMutationOptions, fields_for_serializer
 from graphene.types import Field, InputField
@@ -56,7 +57,7 @@ class RNASerializerMutation(SerializerMutation):
         if hasattr(cls, 'has_permission') and callable(getattr(cls, 'has_permission')):
             if not cls.has_permission(root, info, input):
                 errors = ErrorType.from_errors(
-                    {'permission': ['Você não tem permissão para isso!']})
+                    {'permission': [_('Você não tem permissão para isso!')]})
                 return cls(errors=errors)
 
         search_key = 'id'

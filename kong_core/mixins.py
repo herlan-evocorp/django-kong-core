@@ -1,5 +1,6 @@
 from graphene_permissions.mixins import AuthNode, AuthMutation, AuthFilter
 from graphene_permissions.permissions import AllowAny
+from .errors import PermissionDenied
 
 
 class UserAuthNode(AuthNode):
@@ -11,7 +12,7 @@ class UserAuthNode(AuthNode):
 
         if object_instance is not None and any((perm.has_node_permission(info, id) for perm in cls.permission_users)):
             return object_instance
-        return None
+        raise PermissionDenied()
 
 
 class UserAuthFilter(AuthFilter):
@@ -23,7 +24,7 @@ class UserAuthFilter(AuthFilter):
 
         if object_instance is not None and any((perm.has_filter_permission(info) for perm in cls.permission_users)):
             return object_instance
-        return None
+        raise PermissionDenied()
 
 
 class UserAuthMutation(AuthMutation):
