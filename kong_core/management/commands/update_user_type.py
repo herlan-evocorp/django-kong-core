@@ -16,11 +16,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options['all']:
             for client in Client.objects.all():
-                client.user_type = get_user_type(client.pk)
+                client.user_type = get_user_type(client.x_authenticated_userid)
                 client.save()
         else:
             for client in Client.objects.all():
                 
                 if client.user_type == None:
-                    client.user_type = get_user_type(client.pk)
+                    client.user_type = get_user_type(client.x_authenticated_userid)
                     client.save()
