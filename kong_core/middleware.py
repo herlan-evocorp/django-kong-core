@@ -1,23 +1,6 @@
 from django.utils.deprecation import MiddlewareMixin
 from .models import Client
-import requests
-from django.conf import settings
-
-
-def get_user_type(x_authenticated_userid):
-    url = "{}/graphql".format(settings.ENTIDADE_URL)
-
-    user_type = ''
-
-    try:
-        data = {
-            'query': 'query{getUser(id:"' + str(x_authenticated_userid) + '"){ tipoUsuario }}'}
-        response = requests.post(url, data=data, headers={}, verify=False)
-        user_type = response.json()['data']['getUser']['tipoUsuario']
-    except Exception as e:
-        pass
-
-    return user_type
+from .utils import get_user_type
 
 
 class KongClientMiddleware(MiddlewareMixin):

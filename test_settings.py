@@ -1,0 +1,15 @@
+DEBUG = True
+
+SECRET_KEY = 'fake'
+
+INTERNAL_APPS = [
+]
+
+EXTERNAL_APPS = [
+]
+
+MY_APPS = [
+    'kong_core',
+]
+
+INSTALLED_APPS = INTERNAL_APPS + EXTERNAL_APPS + MY_APPS
