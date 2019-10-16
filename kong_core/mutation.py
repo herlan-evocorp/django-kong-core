@@ -54,11 +54,11 @@ class RNASerializerMutation(SerializerMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         if hasattr(cls, 'has_permission') and callable(getattr(cls, 'has_permission')):
-            if cls.has_permission(root, info, input):
+            if not cls.has_permission(root, info, input):
                 errors = ErrorType.from_errors(
-                    {'permission': 'Você não tem permissão para isso!'})
+                    {'permission': ['Você não tem permissão para isso!']})
                 return cls(errors=errors)
-        
+
         search_key = 'id'
         convert_hash_id_to_plain_id(input, search_key)
         return super(RNASerializerMutation, cls).mutate_and_get_payload(root, info, **input)
