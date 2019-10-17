@@ -11,10 +11,10 @@ class UserRemoteType(graphene.ObjectType):
     username = graphene.String()
     firstName = graphene.String()
     lastName = graphene.String()
-    data_nascimento = graphene.String()
+    dataNascimento = graphene.String()
     cep = graphene.String()
     rua = graphene.String()
-    numero = graphene.String()
+    numero = graphene.Int()
     bairro = graphene.String()
     complemento = graphene.String()
     cidadeName = graphene.String()
@@ -23,7 +23,7 @@ class UserRemoteType(graphene.ObjectType):
 
     class Meta:
         fields = ['id', 'email', 'fullName', 'cpf', 'telefone', 'username',
-                  'firstName', 'lastName' 'data_nascimento', 'cep', 'rua',
+                  'firstName', 'lastName' 'dataNascimento', 'cep', 'rua',
                   'numero', 'bairro', 'complemento', 'cidadeName', 'cidadeEstadoName',
                   'tipoUsuario', ]
         connection_class = TotalItemsConnection
