@@ -5,6 +5,7 @@ from graphene_django.rest_framework.mutation import SerializerMutation, Serializ
 from graphene.types import Field, InputField
 from graphql_relay.node.node import from_global_id, to_global_id
 from graphene.types.objecttype import yank_fields_from_attrs
+from .errors import PermissionDenied
 
 
 def convert_hash_id_to_plain_id(d, search_key):
@@ -56,9 +57,10 @@ class RNASerializerMutation(SerializerMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         if hasattr(cls, 'has_permission') and callable(getattr(cls, 'has_permission')):
             if not cls.has_permission(root, info, input):
-                errors = ErrorType.from_errors(
-                    {'permission': [_('Você não tem permissão para isso!')]})
-                return cls(errors=errors)
+                # errors = ErrorType.from_errors(
+                #     {'permission': [_('Você não tem permissão para isso!')]})
+                # return cls(errors=errors)
+                raise PermissionDenied()
 
         search_key = 'id'
         convert_hash_id_to_plain_id(input, search_key)
