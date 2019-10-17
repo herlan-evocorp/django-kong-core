@@ -75,18 +75,3 @@ def get_fields(info):
         fragments[name] = ast_to_dict(value)
 
     return collect_fields(node, fragments)
-
-
-def get_user_remote(self, info):
-    dicionario = get_fields(info)
-
-    url = "{}/graphql".format(settings.ENTIDADE_URL)
-
-    try:
-        data = {
-            'query': 'query{getUser(id:"' + str(self.titular.x_authenticated_userid) + '"){' + ' '.join(dicionario.keys()) + '}}'}
-        response = requests.post(url, data=data, headers={}, verify=False)
-    
-        return response.json().get('data').get('getUser')
-    except Exception as e:
-        raise Exception(e)
