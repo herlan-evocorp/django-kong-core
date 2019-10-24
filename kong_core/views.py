@@ -39,7 +39,7 @@ class SafeGraphQLView(GraphQLView):
             print("\n\n\nGraphQLLocatedError\n\n\n")
 
         elif isinstance(error, GraphQLError):
-            print("\n\n\nGraphQLError\n\n\n")
+            print("\n\n\nGraphQLError {}\n\n\n".format(str(error)))
             data.update({
                 'message': 'Ocorreu uma falha durante esta operação. Por favor verifique se está tudo certo. Se o problema persistir entre em contato com o suporte!',
                 'message_base': str(error),
