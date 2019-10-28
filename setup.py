@@ -22,7 +22,6 @@ setup(
     author_email='herlan@evocorp.com.br',
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
-    data_files=create_mo_files(),
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
