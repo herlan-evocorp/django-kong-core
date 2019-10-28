@@ -22,7 +22,8 @@ setup(
     install_requires=install_requirements,
     author='Herlan Assis',
     author_email='herlan@evocorp.com.br',
-    package_data={'': ['locale/*/*/*.mo', 'locale/*/*/*.po']},
+    packages=find_packages(exclude=['tests*']),
+    include_package_data=True,
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
