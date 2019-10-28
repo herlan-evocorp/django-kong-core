@@ -38,5 +38,5 @@ msgstr "Erro interno no servidor"
 msgid "Must provide query string."
 msgstr "Deve ser fonecido uma query string"
 
-msgid "%(%(model)) matching query does not exist."
-msgstr "Não existe %(%(model)) correspondente para esta consulta."
+msgid "%(model) matching query does not exist."
+msgstr "Não existe %(model) correspondente para esta consulta."
