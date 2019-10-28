@@ -32,7 +32,8 @@ msgstr "Exceção sem tratamento"
 
 #: views.py:53 views.py:56
 msgid "Server error"
-msgstr "Erro no servidor"
+msgstr "Erro interno no servidor"
 
-msgid "This field may not be blank"
-msgstr "Este campo não pode ser vazio"
+#: views.py: 57
+msgid "Must provide query string."
+msgstr "Deve ser fonecido uma query string"

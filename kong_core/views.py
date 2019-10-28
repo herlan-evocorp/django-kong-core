@@ -54,7 +54,7 @@ class SafeGraphQLView(GraphQLView):
             else:
                 data.update({
                     'message': _('Server error'),
-                    'erro': str(error)
+                    'erro': _(str(error))
                 })
 
         return data
