@@ -37,3 +37,6 @@ msgstr "Erro interno no servidor"
 #: views.py: 57
 msgid "Must provide query string."
 msgstr "Deve ser fonecido uma query string"
+
+msgid "%s matching query does not exist."
+msgstr "Não existe %s correspondente para esta consulta."
