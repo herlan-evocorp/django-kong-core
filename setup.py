@@ -13,7 +13,6 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-kong-core',
     version='0.8.5.6',
-    include_package_data=True,
     license='BSD License',  # example license
     description='Django Kong Core',
     long_description=README,
@@ -23,6 +22,7 @@ setup(
     author_email='herlan@evocorp.com.br',
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
+    data_files=create_mo_files(),
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
