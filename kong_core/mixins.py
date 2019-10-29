@@ -68,4 +68,4 @@ class UserAuthMutation(AuthMutation):
 
     @classmethod
     def has_permission(cls, root, info, input):
-        return super(UserAuthMutation, cls) and any((perm.has_filter_permission(info) for perm in cls.permission_users))
+        return super(UserAuthMutation, cls) and any((perm.has_mutation_permission(info, input) for perm in cls.permission_users))
