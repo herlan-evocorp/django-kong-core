@@ -30,7 +30,7 @@ class SafeGraphQLView(GraphQLView):
 
             if isinstance(error.original_error, ObjectDoesNotExist):
                 data.update({
-                    'message': _(str(error.original_error)),
+                    'message': _("Não existe resultado correspondente para esta consulta."),
                     'statusCode': 404
                 })
             
