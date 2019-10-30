@@ -18,21 +18,24 @@ PO_FILES = name + '/locale/*/LC_MESSAGES/django.po'
 
 # Compiled translations are not distributed via github (by default),
 # so make them during setup
+
+
 def create_mo_files():
-	mo_files = []
-	prefix = name
+    mo_files = []
+    prefix = name
 
-	for po_path in glob.glob(str(pathlib.Path() / PO_FILES)):
-		mo = pathlib.Path(po_path.replace('.po', '.mo'))
+    for po_path in glob.glob(str(pathlib.Path() / PO_FILES)):
+        mo = pathlib.Path(po_path.replace('.po', '.mo'))
 
-		subprocess.run(['msgfmt', '-o', str(mo), po_path], check=True)
-		mo_files.append(str(mo))
+        subprocess.run(['msgfmt', '-o', str(mo), po_path], check=True)
+        mo_files.append(str(mo))
 
-	return mo_files
+    return mo_files
+
 
 setup(
     name='django-kong-core',
-    version='0.8.6.1',
+    version='0.8.6.2',
     license='BSD License',  # example license
     description='Django Kong Core',
     long_description=README,
@@ -42,7 +45,7 @@ setup(
     author_email='herlan@evocorp.com.br',
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
-    data_files=[(name, create_mo_files())], 
+    data_files=[(name, create_mo_files())],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

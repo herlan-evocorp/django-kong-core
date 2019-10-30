@@ -21,7 +21,7 @@ def get_user_type(x_authenticated_userid):
         response = requests.post(url, data=data, headers={}, verify=False)
         user_type = response.json()['data']['getUser']['tipoUsuario']
     except Exception as e:
-        pass
+        print(e)
 
     return user_type
 
