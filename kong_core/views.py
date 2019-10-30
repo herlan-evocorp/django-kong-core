@@ -8,6 +8,9 @@ from graphene_django.views import GraphQLView
 from django.utils.translation import ugettext as _
 from django.utils import translation
 
+from .errors import PermissionDenied, HasRelationsException
+
+
 class SafeGraphQLView(GraphQLView):
     @staticmethod
     def format_error(error):
@@ -19,15 +22,21 @@ class SafeGraphQLView(GraphQLView):
         if isinstance(error, GraphQLLocatedError):
             print("\n\n\nGraphQLLocatedError\n\n\n")
             
-            # if isinstance(error.original_error, JSONWebTokenError):
-            #     data.update({
-            #         'message': _(str(error.original_error)),
-            #         'statusCode': 401
-            #     })
+            if isinstance(error.original_error, PermissionDenied):
+                data.update({
+                    'message': _("Você não tem permissão para realizar essa ação!"),
+                    'statusCode': 401
+                })
+                
+            if isinstance(error.original_error, HasRelationsException):
+                data.update({
+                    'message': _(str(error)),
+                    'statusCode': 400
+                })
 
             if isinstance(error.original_error, ObjectDoesNotExist):
                 data.update({
-                    'message': _(str(error.original_error)),
+                    'message': _("Não existe resultado correspondente para esta consulta."),
                     'statusCode': 404
                 })
             

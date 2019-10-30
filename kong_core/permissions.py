@@ -79,3 +79,12 @@ class AllowGestor:
     def has_filter_permission(info):
         client = info.context.client
         return client is not None and client.user_type == TipoUsuario.GESTOR.name
+
+    
+class IsOwner(AllowCliente):
+    @staticmethod
+    def has_mutation_permission(root, info, input):
+        context_client = info.context.client
+
+        owner = input.pop("owner")
+        return context_client.pk == owner.pk
