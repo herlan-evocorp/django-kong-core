@@ -1,4 +1,5 @@
 import graphene
+from collections import OrderedDict
 from django.utils.translation import ugettext_lazy as _
 from graphene_django.types import ErrorType
 from graphene_django.rest_framework.mutation import SerializerMutation, SerializerMutationOptions, fields_for_serializer
@@ -10,9 +11,17 @@ from .errors import PermissionDenied
 
 def convert_hash_id_to_plain_id(d, search_key):
     '''capturar todos os ids em strings e converter para numerico'''
+
     for key, value in d.items():
+
         if isinstance(value, dict):
             convert_hash_id_to_plain_id(d, search_key)
+
+        elif isinstance(value, list):
+            for item in value:
+                if isinstance(item, dict) or isinstance(item, OrderedDict):
+                    convert_hash_id_to_plain_id(dict(item), search_key) # caso seja orderedDict ele será convertido para dict
+
         else:
             if isinstance(value, str) and search_key.upper() in key.upper():
                 try:
