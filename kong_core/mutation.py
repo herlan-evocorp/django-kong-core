@@ -9,19 +9,22 @@ from graphene.types.objecttype import yank_fields_from_attrs
 from .errors import PermissionDenied
 
 
+def iterate_over_list(l, search_key):
+    for idx, item in enumerate(l):
+        if isinstance(item, dict) or isinstance(item, OrderedDict):
+            l[idx] = convert_hash_id_to_plain_id(dict(item), search_key) # caso seja orderedDict ele será convertido para dict
+    return l
+
+
 def convert_hash_id_to_plain_id(d, search_key):
     '''capturar todos os ids em strings e converter para numerico'''
 
     for key, value in d.items():
-
         if isinstance(value, dict):
             convert_hash_id_to_plain_id(d, search_key)
 
-        elif isinstance(value, list):
-            for item in value:
-                if isinstance(item, dict) or isinstance(item, OrderedDict):
-                    convert_hash_id_to_plain_id(dict(item), search_key) # caso seja orderedDict ele será convertido para dict
-
+        elif isinstance(value, list):            
+            iterate_over_list(value, search_key)
         else:
             if isinstance(value, str) and search_key.upper() in key.upper():
                 try:
@@ -29,6 +32,8 @@ def convert_hash_id_to_plain_id(d, search_key):
                     d[key] = plain_id
                 except Exception as e:
                     print(e)
+    
+    return d
 
 
 class RNASerializerMutation(SerializerMutation):
@@ -73,6 +78,9 @@ class RNASerializerMutation(SerializerMutation):
 
         search_key = 'id'
         convert_hash_id_to_plain_id(input, search_key)
+
+        # print("\n\n{}\n\n".format(input))
+
         return super(RNASerializerMutation, cls).mutate_and_get_payload(root, info, **input)
 
     @classmethod
