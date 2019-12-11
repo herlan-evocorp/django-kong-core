@@ -10,11 +10,25 @@ from .errors import PermissionDenied
 
 
 def serializer_errors_to_graphql(d):
-    for key, value in d.items():
-        if isinstance(value, dict):
-            d[key] = serializer_errors_to_graphql(value)
+    keys_to_remove = []
+    dicts_to_add = []
 
-    return ErrorType.from_errors(d)
+    for key, value in d.items():
+        if isinstance(value, list):
+            for item in value:
+                if isinstance(item, dict):
+                    keys_to_remove.append(key)
+                    dicts_to_add.append(item)
+
+                    serializer_errors_to_graphql(item)
+
+    for keys in keys_to_remove:
+        d.pop(keys)
+
+    for _dict in dicts_to_add:
+        d.update(_dict)
+
+    return d
 
 
 def iterate_over_list(l, search_key):
@@ -89,15 +103,15 @@ class RNASerializerMutation(SerializerMutation):
         convert_hash_id_to_plain_id(input, search_key)
 
         # return super(RNASerializerMutation, cls).mutate_and_get_payload(root, info, **input)
-        
+
         kwargs = cls.get_serializer_kwargs(root, info, **input)
         serializer = cls._meta.serializer_class(**kwargs)
 
         if serializer.is_valid():
             return cls.perform_mutate(serializer, info)
         else:
-            errors = serializer_errors_to_graphql(serializer.errors)
-
+            errors = ErrorType.from_errors(
+                serializer_errors_to_graphql(serializer.errors))
             return cls(errors=errors)
 
     @classmethod
