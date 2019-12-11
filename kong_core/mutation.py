@@ -9,10 +9,19 @@ from graphene.types.objecttype import yank_fields_from_attrs
 from .errors import PermissionDenied
 
 
+def serializer_errors_to_graphql(d):
+    for key, value in d.items():
+        if isinstance(value, dict):
+            d[key] = serializer_errors_to_graphql(value)
+
+    return ErrorType.from_errors(d)
+
+
 def iterate_over_list(l, search_key):
     for idx, item in enumerate(l):
         if isinstance(item, dict) or isinstance(item, OrderedDict):
-            l[idx] = convert_hash_id_to_plain_id(dict(item), search_key) # caso seja orderedDict ele será convertido para dict
+            # caso seja orderedDict ele será convertido para dict
+            l[idx] = convert_hash_id_to_plain_id(dict(item), search_key)
     return l
 
 
@@ -23,7 +32,7 @@ def convert_hash_id_to_plain_id(d, search_key):
         if isinstance(value, dict):
             convert_hash_id_to_plain_id(d, search_key)
 
-        elif isinstance(value, list):            
+        elif isinstance(value, list):
             iterate_over_list(value, search_key)
         else:
             if isinstance(value, str) and search_key.upper() in key.upper():
@@ -32,7 +41,7 @@ def convert_hash_id_to_plain_id(d, search_key):
                     d[key] = plain_id
                 except Exception as e:
                     print(e)
-    
+
     return d
 
 
@@ -79,9 +88,17 @@ class RNASerializerMutation(SerializerMutation):
         search_key = 'id'
         convert_hash_id_to_plain_id(input, search_key)
 
-        # print("\n\n{}\n\n".format(input))
+        # return super(RNASerializerMutation, cls).mutate_and_get_payload(root, info, **input)
+        
+        kwargs = cls.get_serializer_kwargs(root, info, **input)
+        serializer = cls._meta.serializer_class(**kwargs)
 
-        return super(RNASerializerMutation, cls).mutate_and_get_payload(root, info, **input)
+        if serializer.is_valid():
+            return cls.perform_mutate(serializer, info)
+        else:
+            errors = serializer_errors_to_graphql(serializer.errors)
+
+            return cls(errors=errors)
 
     @classmethod
     def perform_mutate(cls, serializer, info):
