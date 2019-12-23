@@ -1,6 +1,6 @@
 from graphene_permissions.permissions import AllowAny
-from .enums import TipoUsuario
-
+from .enums import GroupEnum
+from django.contrib.auth.models import Group
 
 class DenyAny(AllowAny):
     @staticmethod
@@ -34,51 +34,57 @@ class AllowCliente:
     @staticmethod
     def has_node_permission(info, id):
         client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.CLIENTE.name
+        client_group = Group.objects.get(name=GroupEnum.CLIENTE.name) 
+        return user is not None and client_group in user.groups.all()
 
     @staticmethod
     def has_mutation_permission(root, info, input):
         client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.CLIENTE.name
+        client_group = Group.objects.get(name=GroupEnum.CLIENTE.name) 
+        return user is not None and client_group in user.groups.all()
 
     @staticmethod
     def has_filter_permission(info):
         client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.CLIENTE.name
+        client_group = Group.objects.get(name=GroupEnum.CLIENTE.name) 
+        return user is not None and client_group in user.groups.all()
 
 
 class AllowInstalador:
     @staticmethod
     def has_node_permission(info, id):
         client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.INSTALADOR.name
+        instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
+        return user is not None and instalador_group in user.groups.all()
 
     @staticmethod
     def has_mutation_permission(root, info, input):
         client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.INSTALADOR.name
+        instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
+        return user is not None and instalador_group in user.groups.all()
 
     @staticmethod
     def has_filter_permission(info):
         client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.INSTALADOR.name
+        instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
+        return user is not None and instalador_group in user.groups.all()
 
 
 class AllowGestor:
     @staticmethod
     def has_node_permission(info, id):
-        client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.GESTOR.name
+        user = info.context.user 
+        return user is not None and user.tipo_usuario == GroupEnum.GESTOR.name
 
     @staticmethod
     def has_mutation_permission(root, info, input):
-        client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.GESTOR.name
+        user = info.context.user
+        return user is not None and user.tipo_usuario == GroupEnum.GESTOR.name
 
     @staticmethod
     def has_filter_permission(info):
-        client = info.context.client
-        return client is not None and client.user_type == TipoUsuario.GESTOR.name
+        user = info.context.user 
+        return user is not None and user.tipo_usuario == GroupEnum.GESTOR.name
 
     
 class IsOwner(AllowCliente):

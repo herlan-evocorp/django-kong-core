@@ -1,5 +1,5 @@
 import graphene
-from kong_core.connections import TotalItemsConnection
+from apps.kong_core.connections import TotalItemsConnection
 
 
 class UserRemoteType(graphene.ObjectType):
@@ -19,12 +19,12 @@ class UserRemoteType(graphene.ObjectType):
     complemento = graphene.String()
     cidadeName = graphene.String()
     cidadeEstadoName = graphene.String()
-    tipoUsuario = graphene.String()
+    group = graphene.String()
 
     class Meta:
         fields = ['id', 'email', 'fullName', 'cpf', 'telefone', 'username',
                   'firstName', 'lastName' 'dataNascimento', 'cep', 'rua',
                   'numero', 'bairro', 'complemento', 'cidadeName', 'cidadeEstadoName',
-                  'tipoUsuario', ]
+                  'group', ]
         connection_class = TotalItemsConnection
         use_connection = True

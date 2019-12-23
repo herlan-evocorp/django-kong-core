@@ -1,6 +1,6 @@
 from .utils import ChoiceEnum
 
-class TipoUsuario(ChoiceEnum):
+class GroupEnum(ChoiceEnum):
     INSTALADOR = 'INSTALADOR'
     CLIENTE = 'CLIENTE'
     GESTOR = 'GESTOR'
