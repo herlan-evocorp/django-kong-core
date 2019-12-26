@@ -67,7 +67,6 @@ class Client(BaseModel):
     x_authenticated_scope = models.CharField(max_length=256, null=True)
     x_authenticated_userid = models.PositiveIntegerField(null=True)
     x_anonymous_consumer = models.BooleanField(default=False)
-    user_type = models.CharField(max_length=256, null=True)
 
     def __str__(self):
         return self.x_consumer_id
