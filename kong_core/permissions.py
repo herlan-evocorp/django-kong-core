@@ -32,36 +32,36 @@ class AllowAuthenticated(AllowAny):
 class AllowCliente:
     @staticmethod
     def has_node_permission(info, id):
-        client = info.context.user 
+        user = info.context.user 
         return user is not None and user.tipo_usuario == GroupEnum.CLIENTE.name
 
     @staticmethod
     def has_mutation_permission(root, info, input):
-        client = info.context.user 
+        user = info.context.user 
         return user is not None and user.tipo_usuario == GroupEnum.CLIENTE.name
 
     @staticmethod
     def has_filter_permission(info):
-        client = info.context.user 
+        user = info.context.user 
         return user is not None and user.tipo_usuario == GroupEnum.CLIENTE.name
 
 
 class AllowInstalador:
     @staticmethod
     def has_node_permission(info, id):
-        client = info.context.user
+        user = info.context.user
         instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
         return user is not None and instalador_group in user.groups.all()
 
     @staticmethod
     def has_mutation_permission(root, info, input):
-        client = info.context.user
+        user = info.context.user
         instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
         return user is not None and instalador_group in user.groups.all()
 
     @staticmethod
     def has_filter_permission(info):
-        client = info.context.user
+        user = info.context.user
         instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
         return user is not None and instalador_group in user.groups.all()
 
