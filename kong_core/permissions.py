@@ -49,21 +49,18 @@ class AllowCliente:
 class AllowInstalador:
     @staticmethod
     def has_node_permission(info, id):
-        user = info.context.user
-        instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
-        return user is not None and instalador_group in user.groups.all()
+        user = info.context.user 
+        return user is not None and user.tipo_usuario == GroupEnum.INSTALADOR.name
 
     @staticmethod
     def has_mutation_permission(root, info, input):
-        user = info.context.user
-        instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
-        return user is not None and instalador_group in user.groups.all()
+        user = info.context.user 
+        return user is not None and user.tipo_usuario == GroupEnum.INSTALADOR.name
 
     @staticmethod
     def has_filter_permission(info):
-        user = info.context.user
-        instalador_group = Group.objects.get(name=GroupEnum.INSTALADOR.name) 
-        return user is not None and instalador_group in user.groups.all()
+        user = info.context.user 
+        return user is not None and user.tipo_usuario == GroupEnum.INSTALADOR.name
 
 
 class AllowGestor:
