@@ -35,7 +35,7 @@ def get_package_data(package):
 
 setup(
     name='django-kong-core',
-    version='0.7.6.2',
+    version='0.7.6.3',
     packages=get_packages(package),
     package_data=get_package_data(package),
     include_package_data=True,
