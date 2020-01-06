@@ -35,7 +35,7 @@ def create_mo_files():
 
 setup(
     name='django-kong-core',
-    version='0.9.6',
+    version='0.9.7',
     license='BSD License',  # example license
     description='Django Kong Core',
     long_description=README,
