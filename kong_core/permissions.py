@@ -83,7 +83,7 @@ class AllowGestor:
 class IsOwner(AllowCliente):
     @staticmethod
     def has_mutation_permission(root, info, input):
-        context_client = info.context.client
+        context_client = info.context.user
 
         owner = input.pop("owner")
         return context_client.pk == owner.pk
