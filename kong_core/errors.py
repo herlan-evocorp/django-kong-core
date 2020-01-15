@@ -21,3 +21,8 @@ class HasRelationsException(Exception):
         self.object_related = object_related
     def __str__(self):
         return "Este(a) {} está vinculado a um(a) {}".format(self.object_relation, self.object_related)
+
+class ApiError(BaseGraphQLError):
+
+    def __init__(self, message=None, *args, **kwags):
+        super(ApiError, self).__init__(message, *args, **kwags)
