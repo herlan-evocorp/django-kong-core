@@ -13,7 +13,6 @@ with open('requirements/requirements.txt') as f:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-<<<<<<< HEAD
 name = 'kong_core'
 PO_FILES = name + '/locale/*/LC_MESSAGES/django.po'
 
@@ -37,40 +36,6 @@ def create_mo_files():
 setup(
     name='django-kong-core',
     version='0.9.9',
-=======
-package = 'rest_framework_jwt'
-
-def get_packages(package):
-    """
-    Return root package and all sub-packages.
-    """
-    return [dirpath
-            for dirpath, dirnames, filenames in os.walk(package)
-            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-
-def get_package_data(package):
-    """
-    Return all files under the root package, that are not in a
-    package themselves.
-    """
-    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
-            for dirpath, dirnames, filenames in os.walk(package)
-            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-    filepaths = []
-    for base, filenames in walk:
-        filepaths.extend([os.path.join(base, filename)
-                          for filename in filenames])
-    return {package: filepaths}
-
-setup(
-    name='django-kong-core',
-    version='0.7.6.3',
-    packages=get_packages(package),
-    package_data=get_package_data(package),
-    include_package_data=True,
->>>>>>> 2acae93f13e9cc94c6f1a3ab0d6dd4b5f3789655
     license='BSD License',  # example license
     description='Django Kong Core',
     long_description=README,
